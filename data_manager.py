@@ -4,7 +4,6 @@ from flask import Markup
 
 def parse_planets_data(page_id):
     response = requests.get('http://swapi.co/api/planets/?page={}'.format(page_id)).json()
-
     result = response['results']
     prev_button = response['previous']
     next_button = response['next']
@@ -18,61 +17,45 @@ def parse_planets_data(page_id):
     if next_button is None:
         next_page_id = None
 
-    result_list = []
     title_list = ['Name', 'Diameter', 'Climate', 'Terrain', 'Water', 'Population', 'Residents']
-    name_list = []
-    diamater_list = []
-    climate_list = []
-    terrain_list = []
-    surface_water_list = []
-    population_list = []
-    residents_list = []
+    name_list = get_value('name', result)
+    diamater_list = get_value('diameter', result)
+    climate_list = get_value('climate', result)
+    terrain_list = get_value('terrain', result)
+    surface_water_list = get_value('surface_water', result)
+    population_list = get_value('population', result)
+    residents_list = get_value('residents', result)
+    result_list = []
 
-    for contents in result:
-        for key, value in contents.items():
-            if key == 'name':
-                name_list.append(value)
-            if key == 'diameter':
-                if value == 'unknown':
-                    diamater_list.append(value)
-                else:
-                    formatted_string = format_numbers(value)
-                    diamater_list.append(formatted_string + ' km')
-            if key == 'climate':
-                climate_list.append(value)
-            if key == 'terrain':
-                terrain_list.append(value)
-            if key == 'surface_water':
-                if value == 'unknown':
-                    surface_water_list.append(value)
-                else:
-                    surface_water_list.append(value + ' %')
-            if key == 'population':
-                if value == 'unknown':
-                    population_list.append(value)
-                else:
-                    formatted_string = format_numbers(value)
-                    population_list.append(formatted_string + ' people')
-            if key == 'residents':
-                if value == []:
-                    residents_list.append('No known residents')
-                else:
-                    residents_list.append(Markup(
-                        '<button class="btn-default btn-xs residents" data-residents="' + str(value) + '"' +
-                        'data-planet-name="shit" data-toggle="modal" data-target="#residents">' +
-                        str(len(value)) +
-                        ' residents' +
-                        '</button>'))
-
+    # concatenate and modify list items
     for i in range(len(name_list)):
         result_list.append([])
         result_list[i].append(name_list[i])
-        result_list[i].append(diamater_list[i])
+        if diamater_list[i] == 'unknown':
+            result_list[i].append(diamater_list[i])
+        else:
+            formatted_string = format_numbers(diamater_list[i])
+            result_list[i].append(formatted_string + ' km')
         result_list[i].append(climate_list[i])
         result_list[i].append(terrain_list[i])
-        result_list[i].append(surface_water_list[i])
-        result_list[i].append(population_list[i])
-        result_list[i].append(residents_list[i])
+        if surface_water_list[i] == 'unknown':
+            result_list[i].append(surface_water_list[i])
+        else:
+            result_list[i].append(str(surface_water_list[i]) + ' %')
+        if population_list[i] == 'unknown':
+            result_list[i].append(population_list[i])
+        else:
+            formatted_string = format_numbers(population_list[i])
+            result_list[i].append(formatted_string + ' people')
+        if residents_list[i] == []:
+            result_list[i].append('No known residents')
+        else:
+            result_list[i].append(Markup(
+                        '<button class="btn-default btn-xs residents" ' +
+                        'data-residents="' + str(residents_list[i]) + '"' +
+                        'data-planet-name="' + str(name_list[i]) + '"' +
+                        'data-toggle="modal" data-target="#residents">' +
+                        str(len(residents_list[i])) + ' residents</button>'))
 
     result_list.insert(0, title_list)
 
@@ -82,8 +65,13 @@ def parse_planets_data(page_id):
             'response': response}
 
 
-def result_to_list(list_name):
-    pass
+def get_value(string_key, result):
+    value_list = []
+    for item in result:
+        for key, value in item.items():
+            if key == str(string_key):
+                value_list.append(value)
+    return value_list
 
 
 def format_numbers(number_string):
