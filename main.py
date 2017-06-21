@@ -20,7 +20,6 @@ def home_page():
     next_page_id = all_data['next_page_id']
 
     return render_template('index.html',
-                           response=response,
                            result_list=result_list,
                            prev_page_id=prev_page_id,
                            next_page_id=next_page_id)

@@ -1,14 +1,14 @@
-.planets {
+.table-bordered {
     margin-top: 20px;
     width: 100%;
 }
 
-.planets tr:first-child td {
+.table-bordered tr:first-child td {
     font-weight: 600;
     border-bottom-width: 2px;
 }
 
-.planets td {
+.table-bordered td {
     padding: 7px;
 }
 

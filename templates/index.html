@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" defer></script>
@@ -14,13 +15,19 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
-                <h1>Star Wars universe planets</h1>
 
+                <h1>Star Wars universe planets</h1>
+                {% if prev_page_id == None %}
+                <a class="btn btn-primary" href="?page={{ next_page_id }}">Next</a>
+                {% elif next_page_id == None %}
+                <a class="btn btn-primary" href="?page={{ prev_page_id }}">Previous</a>
+                {% else %}
                 <a class="btn btn-primary" href="?page={{ prev_page_id }}">Previous</a>
                 <a class="btn btn-primary" href="?page={{ next_page_id }}">Next</a>
+                {% endif %}
                 
                 <div class="table-responsive">
-                    <table class="planets table-bordered table-hover">
+                    <table class="table-bordered table-hover">
                     {% for result in result_list %}
                         <tr>
                             {% for stuff in result %}
@@ -30,9 +37,7 @@
                     {% endfor %}
                     </table>
                 </div>
-                
-                <h1>result</h1>
-                {{ result_list }}
+
             </div>
         </div>
     </div>
@@ -40,15 +45,13 @@
 <!--modal start-->
 
 <div class="modal fade" id="residents" tabindex="-1" role="dialog" aria-labelledby="residents">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="ModalLabel"></h4>
             </div>
-            <div class="modal-body">
-                <h1>content gyün ide</h1>
-            </div>
+            <div class="modal-body"></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
