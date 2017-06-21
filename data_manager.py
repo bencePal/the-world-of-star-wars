@@ -52,8 +52,8 @@ def parse_planets_data(page_id):
         else:
             result_list[i].append(Markup(
                         '<button class="btn-default btn-xs residents" ' +
-                        'data-residents="' + str(residents_list[i]) + '"' +
-                        'data-planet-name="' + str(name_list[i]) + '"' +
+                        'data-residents="' + str(residents_list[i]) + '" ' +
+                        'data-planet-name="' + str(name_list[i]) + '" ' +
                         'data-toggle="modal" data-target="#residents">' +
                         str(len(residents_list[i])) + ' residents</button>'))
 
