@@ -1,0 +1,18 @@
+.planets {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.planets tr:first-child td {
+    font-weight: 600;
+    border-bottom-width: 2px;
+}
+
+.planets td {
+    padding: 7px;
+}
+
+button.residents {
+    border: 1px solid #ddd;
+}
+    
