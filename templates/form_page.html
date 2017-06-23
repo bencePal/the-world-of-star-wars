@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% if error_message %}
+<div class="alert alert-danger">
+  <strong>{{ error_message }}</strong>
+</div>
+{% endif %}
+<form method="post">
+    <div class="form-group">
+        <label for="email">Username:</label>
+        <input type="text" class="form-control" name="username" value="{{ request_username }}">
+    </div>
+    <div class="form-group">
+        <label for="pwd">Password:</label>
+        <input type="password" class="form-control" name="password">
+    </div>
+    <a href="/" class="btn btn-default">Back</a>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}

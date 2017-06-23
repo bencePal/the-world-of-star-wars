@@ -15,4 +15,11 @@
 button.residents {
     border: 1px solid #ddd;
 }
-    
+
+.login {
+    margin-top: 10px;
+}
+
+form, .alert {
+    max-width: 450px;
+}
