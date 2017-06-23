@@ -15,8 +15,16 @@ def get_userdata(username):
         SELECT username, password
         FROM swuser
         WHERE username = %s; """, (username, ))
-    rows = cursor.fetchall()
-    return rows
+    return cursor.fetchall()
+
+
+def get_user_id(username):
+    cursor = config.get_connection().cursor()
+    cursor.execute("""
+        SELECT id
+        FROM swuser
+        WHERE username = %s; """, (username, ))
+    return cursor.fetchall()
 
 
 

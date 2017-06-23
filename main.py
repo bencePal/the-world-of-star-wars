@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, Markup, session, redirect, url_for, escape
+from flask import Flask, render_template, request, session, redirect, url_for, escape
 from werkzeug.security import generate_password_hash, check_password_hash
 import data_manager
 import queries
@@ -8,9 +8,14 @@ app = Flask(__name__)
 
 @app.route('/')
 def home_page():
-    title = "Star Wars universe planets"
+    title = 'Star Wars universe planets'
     logged_in = False
     username = ''
+
+    if 'username' in session:
+        username = escape(session['username'])
+        logged_in = True
+        # átkelladni oda valami jelzést
 
     if request.args.get('page') and request.args.get('page') != 'None':
         page_id = request.args.get('page')
@@ -24,10 +29,6 @@ def home_page():
     prev_page_id = all_data['prev_page_id']
     next_page_id = all_data['next_page_id']
 
-    if 'username' in session:
-        username = escape(session['username'])
-        logged_in = True
-
     return render_template('index.html', result_list=result_list,
                            prev_page_id=prev_page_id, next_page_id=next_page_id,
                            username=username, logged_in=logged_in, title=title)
@@ -35,7 +36,7 @@ def home_page():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    title = "Login Page"
+    title = 'Login Page'
     error_message = False
     if request.method == 'POST':
         request_username = request.form['username']
@@ -47,11 +48,11 @@ def login():
                 session['username'] = request_username
                 return redirect(url_for('home_page'))
             else:
-                error_message = "Wrong password"
+                error_message = 'Wrong password'
                 return render_template('form_page.html', title=title,
                                        request_username=request_username, error_message=error_message)
         else:
-            error_message = "This username doesn't exist"
+            error_message = 'This username doesn\'t exist'
             return render_template('form_page.html', title=title,
                                    request_username=request_username, error_message=error_message)
     return render_template('form_page.html', title=title)
@@ -59,17 +60,17 @@ def login():
 
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():
-    title = "Registration Page"
+    title = 'Registration Page'
     error_message = False
     if request.method == 'POST':
         request_username = request.form['username']
         request_password = request.form['password']
         if len(request_username) < 4 or len(request_password) < 4:
-            error_message = "Please fill out the fields (min. 4 character length)"
+            error_message = 'Please fill out the fields (min. 4 character length)'
             return render_template('form_page.html', title=title,
                                    request_username=request_username, error_message=error_message)
         elif queries.get_userdata(request_username) != []:
-            error_message = "This username is already in use"
+            error_message = 'This username is already in use'
             return render_template('form_page.html', title=title,
                                    request_username=request_username, error_message=error_message)
         else:

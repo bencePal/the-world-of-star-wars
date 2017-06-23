@@ -16,6 +16,10 @@ button.residents {
     border: 1px solid #ddd;
 }
 
+button.btn-warning {
+    border: 1px solid #ec971f;
+}
+
 .login {
     margin-top: 10px;
 }
