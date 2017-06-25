@@ -59,3 +59,28 @@ function formatHeight(string) {
 $('#residents').on('hidden.bs.modal', function () {
     $(this).find('.modal-body').text('');
 })
+
+
+
+$(".add-vote").on("click", function() {
+
+    var vote = {
+        planetId: this.getAttribute('data-planet-id'),
+        userId: this.getAttribute('data-user-id')
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/',
+        data: JSON.stringify(vote),
+        contentType: 'application/json;charset=UTF-8',
+        success: function() {
+            $('.table-responsive').prepend('<div class="alert alert-success"><strong>Your vote has been saved</strong></div>')
+            setTimeout(function(){ 
+                $('.alert-success').remove()
+            }, 2000);
+        }
+    })
+
+});
+    

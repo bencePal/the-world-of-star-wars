@@ -24,6 +24,10 @@ button.btn-warning {
     margin-top: 10px;
 }
 
-form, .alert {
+form, .alert-danger {
     max-width: 450px;
 }
+.alert-success {
+    margin-top: 15px;
+}
+   

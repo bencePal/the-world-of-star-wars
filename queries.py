@@ -1,5 +1,5 @@
 import config
-
+import datetime
 
 def save_user(username, password):
     cursor = config.get_connection().cursor()
@@ -27,6 +27,13 @@ def get_user_id(username):
     return cursor.fetchall()
 
 
+def insert_vote(planet_id, user_id):
+    cursor = config.get_connection().cursor()
+    date_time = '{:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
+    print(date_time)
+    cursor.execute("""
+        INSERT INTO planet_votes (planet_id, user_id, submission_time)
+        VALUES (%s, %s, %s); """, (planet_id, user_id, date_time))
 
 
 

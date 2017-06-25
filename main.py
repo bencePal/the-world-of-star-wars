@@ -6,7 +6,7 @@ import queries
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home_page():
     title = 'Star Wars universe planets'
     logged_in = False
@@ -15,7 +15,6 @@ def home_page():
     if 'username' in session:
         username = escape(session['username'])
         logged_in = True
-        # átkelladni oda valami jelzést
 
     if request.args.get('page') and request.args.get('page') != 'None':
         page_id = request.args.get('page')
@@ -28,6 +27,11 @@ def home_page():
     result_list = all_data['result_list']
     prev_page_id = all_data['prev_page_id']
     next_page_id = all_data['next_page_id']
+
+    if request.method == 'POST':
+        user_id = request.json['userId']
+        planet_id = request.json['planetId']
+        queries.insert_vote(planet_id, user_id)
 
     return render_template('index.html', result_list=result_list,
                            prev_page_id=prev_page_id, next_page_id=next_page_id,
@@ -83,11 +87,9 @@ def registration():
 
 @app.route('/logout')
 def logout():
-    # remove the username from the session if it's there
     session.pop('username', None)
     return redirect(url_for('home_page'))
 
-# set the secret key.  keep this really secret:
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 if __name__ == '__main__':
