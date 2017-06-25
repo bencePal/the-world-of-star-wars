@@ -12,6 +12,6 @@ def get_connection():
                                 dbname=connect_str["dbname"])
         conn.autocommit = True
         return conn
-    except psycopg2.DatabaseError as e:
+    except psycopg2.DatabaseError as error:
         print('Cannot connect')
-        print(e)
+        print(error)
