@@ -1,8 +1,10 @@
 
 $('#residents').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget) // Button that triggered the modal
-    var planetName = button.data('planet-name') // Extract info from data-* attributes
-    var residents = button.data('residents') // Extract info from data-* attributes
+    
+    var button = $(event.relatedTarget)
+
+    var planetName = button.data('planet-name')
+    var residents = button.data('residents')
     var modal = $(this)
     var arrayResidentsLink = residents.split(",");
     modal.find('.modal-title').text('Residents of ' + planetName)
@@ -36,8 +38,16 @@ $('#residents').on('show.bs.modal', function (event) {
             }
         })
     };
-
 })
+
+$('#residents').on('hidden.bs.modal', function () {
+    $(this).find('.modal-body').text('');
+})
+
+
+
+
+
 
 function formatMass(string) {
     if (string === 'unknown') {
@@ -56,9 +66,6 @@ function formatHeight(string) {
     }
 }
 
-$('#residents').on('hidden.bs.modal', function () {
-    $(this).find('.modal-body').text('');
-})
 
 
 
@@ -66,7 +73,8 @@ $(".add-vote").on("click", function() {
 
     var vote = {
         planetId: this.getAttribute('data-planet-id'),
-        userId: this.getAttribute('data-user-id')
+        userId: this.getAttribute('data-user-id'),
+        planetName: this.getAttribute('data-planet-name')
     }
 
     $.ajax({
@@ -84,3 +92,32 @@ $(".add-vote").on("click", function() {
 
 });
     
+
+
+$('#votes').on('show.bs.modal', function (event) {
+    
+    var modal = $(this)
+    modal.find('.modal-title').text('Votes')
+    
+    modal.find('.modal-body').append('<table class="table-bordered votes-table table-hover"><tr>' +
+                                     '<td>Planet name</td>' +
+                                     '<td>Vote number</td>' +
+                                     '</tr></table>');
+
+    $.ajax({
+        type: 'GET',
+        url: '/planet_votes',
+        success: function(data) {
+            $.each(data, function(key, value) {
+                modal.find('.votes-table').append('<tr>' +
+                                                  '<td>' + key + '</td>' +
+                                                  '<td>' + value + '</td>' +
+                                                  '</tr>')
+            });
+        }
+    })
+})
+
+$('#votes').on('hidden.bs.modal', function () {
+    $(this).find('.modal-body').text('');
+})

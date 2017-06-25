@@ -27,7 +27,8 @@ button.btn-warning {
 form, .alert-danger {
     max-width: 450px;
 }
-.alert-success {
+.alert-success, .vote-btn {
     margin-top: 15px;
 }
+
    

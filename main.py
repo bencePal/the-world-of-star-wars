@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, url_for, escape
+from flask import Flask, render_template, request, session, redirect, url_for, escape, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 import data_manager
 import queries
@@ -31,11 +31,17 @@ def home_page():
     if request.method == 'POST':
         user_id = request.json['userId']
         planet_id = request.json['planetId']
-        queries.insert_vote(planet_id, user_id)
+        planet_name = request.json['planetName']
+        queries.insert_vote(planet_id, user_id, planet_name)
 
     return render_template('index.html', result_list=result_list,
                            prev_page_id=prev_page_id, next_page_id=next_page_id,
                            username=username, logged_in=logged_in, title=title)
+
+
+@app.route('/planet_votes')
+def planet_votes():
+    return jsonify(dict(queries.get_vote_statistics()))
 
 
 @app.route('/login', methods=['GET', 'POST'])

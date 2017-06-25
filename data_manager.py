@@ -66,6 +66,7 @@ def parse_planets_data(page_id):
                         str(len(residents_list[i])) + ' residents</button>'))
         if 'username' in session:
             result_list[i].append(Markup('<button class="btn-warning btn-xs add-vote" ' +
+                                         'data-planet-name="' + name_list[i] + '"' +
                                          'data-planet-id="' + str(get_planet_id(planet_url_list[i])) + '" ' +
                                          'data-user-id="' + str(user_id) + '">Add vote</button>'))
 
