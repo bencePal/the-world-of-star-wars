@@ -44,11 +44,6 @@ $('#residents').on('hidden.bs.modal', function () {
     $(this).find('.modal-body').text('');
 })
 
-
-
-
-
-
 function formatMass(string) {
     if (string === 'unknown') {
         return string
@@ -65,9 +60,6 @@ function formatHeight(string) {
         return string
     }
 }
-
-
-
 
 $(".add-vote").on("click", function() {
 
@@ -92,8 +84,6 @@ $(".add-vote").on("click", function() {
 
 });
     
-
-
 $('#votes').on('show.bs.modal', function (event) {
     
     var modal = $(this)
